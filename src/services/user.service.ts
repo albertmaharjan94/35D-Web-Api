@@ -1,22 +1,23 @@
-import { CreateUserDto, UserResponseDto } from "../dtos/user.dto";
-import { UserRepositoryInterface } from "../interfaces/user.repository.interface";
-
+import { UserRepository } from "../repositories/user.repository";
+import { CreateUserDto } from "../dtos/user.dto";
+import bcryptjs from "bcryptjs";
+import { HttpError } from "../errors/http-error";
+let userRepository = new UserRepository();
 export class UserService {
-    // Dependency Injection
-    constructor(private userRepository: UserRepositoryInterface) {}
-
-    async registerUser(userData: CreateUserDto): Promise<UserResponseDto> {
-        // business logic
-        const newUser = await this.userRepository.createUser(userData);
-        // validation after query if needed
-        // .. if duplicate found, throw error
-        // map and transform 
-        const respose : UserResponseDto = {
-            id: newUser._id,
-            name: newUser.name,
-            email: newUser.email ?? "N/A",
-            createAt: newUser.createdAt
-        };
-        return respose;
+    async registerUser(userData: CreateUserDto){ // userData passed from controller
+        // business logic, e.g. check if user exists, hash password, etc.
+        const checkEmail = await userRepository.getUserByEmail(userData.email);
+        if(checkEmail){ // if found instance, duplicate email
+            throw new HttpError(409, "Email already in use");
+        }
+        const checkUsername = await userRepository.getUserByUsername(userData.username);
+        if(checkUsername){
+            throw new HttpError(403, "Username already in use");
+        }
+        // donot store plain password - hash/encrypt for security
+        const hashedPassword = await bcryptjs.hash(userData.password, 10); // 10 complexity
+        userData.password = hashedPassword; // replace with hashed password
+        const newUser = await userRepository.createUser(userData);
+        return newUser;
     }
 }
