@@ -31,3 +31,9 @@ export const UpdateUserDto = UserSchema.pick(
     }
 )
 export type UpdateUserDto = z.infer<typeof UpdateUserDto>;
+
+export const LoginUserDto = z.object({
+    email: z.email(),
+    password: z.string().min(6)
+})
+export type LoginUserDto = z.infer<typeof LoginUserDto>;
