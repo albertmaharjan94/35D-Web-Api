@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 
 import { PORT } from './configs';
 import { connectDb } from './database/mongodb';
-
+import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config(); 
 // Can use .env variables after this
@@ -14,6 +14,10 @@ import bookRoutes from './routes/book.route';
 import adminUserRoutes from './routes/admin/user.route';
 
 const app: Application = express();
+const corsOptions = {
+    origin:[ 'http://localhost:3000', 'http://localhost:3003'], // Adjust this to your client's origin
+};
+app.use(cors(corsOptions));
 // const port = 3000;
 
 app.use(bodyParser.json());
