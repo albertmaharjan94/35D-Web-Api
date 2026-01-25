@@ -5,6 +5,8 @@ import { PORT } from './configs';
 import { connectDb } from './database/mongodb';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+
 dotenv.config(); 
 // Can use .env variables after this
 console.log(process.env.PORT);
@@ -17,6 +19,9 @@ const app: Application = express();
 const corsOptions = {
     origin:[ 'http://localhost:3000', 'http://localhost:3003'], // Adjust this to your client's origin
 };
+
+app.use("/uploads", express.static(path.join(__dirname, '../uploads')));
+
 app.use(cors(corsOptions));
 // const port = 3000;
 

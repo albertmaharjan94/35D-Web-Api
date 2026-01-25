@@ -22,18 +22,21 @@ export const CreateUserDto = UserSchema.pick( // re use UserSchema
 export type CreateUserDto = z.infer<typeof CreateUserDto>;
 
 // export const UpdateUserDto = UserSchema.partial(); // all optional fields
-export const UpdateUserDto = UserSchema.pick(
-    {
-        firstName: true,
-        lastName: true,
-        username: true,
-        email: true
-    }
-)
-export type UpdateUserDto = z.infer<typeof UpdateUserDto>;
+// export const UpdateUserDto = UserSchema.pick(
+//     {
+//         firstName: true,
+//         lastName: true,
+//         username: true,
+//         email: true
+//     }
+// )
+// export type UpdateUserDto = z.infer<typeof UpdateUserDto>;
 
 export const LoginUserDto = z.object({
     email: z.email(),
     password: z.string().min(6)
 })
 export type LoginUserDto = z.infer<typeof LoginUserDto>;
+
+export const UpdateUserDto = UserSchema.partial();
+export type UpdateUserDto = z.infer<typeof UpdateUserDto>;
