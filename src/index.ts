@@ -14,6 +14,8 @@ console.log(process.env.PORT);
 import authRoutes from './routes/auth.route';
 import bookRoutes from './routes/book.route';
 import adminUserRoutes from './routes/admin/user.route';
+import blogRoutes from './routes/blog.route';
+import adminBlogRoutes from './routes/admin/blog.route';
 
 const app: Application = express();
 const corsOptions = {
@@ -29,6 +31,8 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/admin/users', adminUserRoutes);
+app.use('/api/admin/blogs', adminBlogRoutes);
+app.use('/api/blogs', blogRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, World!');
