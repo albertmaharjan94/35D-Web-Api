@@ -18,5 +18,10 @@ router.put(
     uploads.single("image"), // optional single profile image
     authController.updateUser
 )
+
+router.post(
+    "/send-reset-password-email",
+    authController.requestPasswordChange
+)
 // "image" - field name from client side form-data
 export default router;
