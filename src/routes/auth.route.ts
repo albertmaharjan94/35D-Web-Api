@@ -23,5 +23,8 @@ router.post(
     "/send-reset-password-email",
     authController.requestPasswordChange
 )
+
+router.post("/request-password-reset", authController.requestPasswordChange);
+router.post("/reset-password/:token", authController.resetPassword);
 // "image" - field name from client side form-data
 export default router;
